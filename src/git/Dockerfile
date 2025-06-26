@@ -29,6 +29,9 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
  
 COPY --from=uv /root/.local /root/.local
+
+# User app does not exist in base image (chown)
+RUN useradd -rUM -s /usr/sbin/nologin app
 COPY --from=uv --chown=app:app /app/.venv /app/.venv
 
 # Place executables in the environment at the front of the path
